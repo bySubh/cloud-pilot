@@ -1,0 +1,3 @@
+Uniform bucket-level access is enabled to avoid legacy ACL misconfiguration.
+public_access_prevention=enforced blocks any public exposure regardless of
+IAM policy. Versioning protects against accidental overwrite/delete.

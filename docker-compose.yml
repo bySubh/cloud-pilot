@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cloudpilot
+      POSTGRES_PASSWORD: cloudpilot
+      POSTGRES_DB: cloudpilot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cloudpilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./Backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://cloudpilot:cloudpilot@postgres:5432/cloudpilot
+      CHROMA_PERSIST_DIRECTORY: /app/.chroma
+      GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-}
+      GOOGLE_CLOUD_LOCATION: ${GOOGLE_CLOUD_LOCATION:-us-central1}
+      GOOGLE_GENAI_USE_VERTEXAI: ${GOOGLE_GENAI_USE_VERTEXAI:-true}
+      SENTINEL_TF_ALLOW_APPLY: ${SENTINEL_TF_ALLOW_APPLY:-0}
+      CORS_ORIGINS: http://localhost:5173
+    volumes:
+      - backend_workspace:/app/workspace
+      - backend_chroma:/app/.chroma
+      # Mount your GCP service account key read-only if using Vertex AI, e.g.:
+      # - ~/.config/gcloud:/root/.config/gcloud:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./Frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8000
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  backend_workspace:
+  backend_chroma:

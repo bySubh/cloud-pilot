@@ -1,0 +1,44 @@
+# --- Python ---------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+.mypy_cache/
+
+# --- Env / secrets ----------------------------------------------------
+.env
+.env.local
+*.env
+!.env.example
+*.json.key
+service-account*.json
+*credentials*.json
+
+# --- Node / Frontend ----------------------------------------------------
+node_modules/
+Frontend/dist/
+Frontend/.vite/
+npm-debug.log*
+
+# --- Terraform ----------------------------------------------------------
+**/.terraform/
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.backup
+**/*.tfplan
+**/tfplan.binary
+Backend/workspace/tf-run-*/
+
+# --- Backend runtime data ----------------------------------------------
+Backend/workspace/*.db
+Backend/.chroma/
+Backend/workspace/chroma/
+
+# --- OS / editor ----------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+*.swp

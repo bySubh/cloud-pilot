@@ -1,0 +1,4 @@
+Omitting access_config means no external IP is assigned. Shielded VM options
+protect against boot-level rootkits. OS Login (vs. static SSH keys) ties
+access to IAM. Scope is broad here for portability but should be narrowed
+per-deployment in production.

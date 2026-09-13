@@ -1,0 +1,4 @@
+ipv4_enabled=false removes the public IP attack surface entirely; the
+instance is only reachable via the private VPC network. require_ssl=true
+enforces encryption in transit. deletion_protection guards against
+accidental destroy.
