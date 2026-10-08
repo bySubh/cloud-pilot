@@ -7,7 +7,7 @@ WORKDIR /app
 
 # --- system deps + Terraform -------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl unzip git gnupg software-properties-common \
+        curl unzip git gnupg \
     && curl -fsSL https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /usr/local/bin \
     && rm /tmp/terraform.zip \
