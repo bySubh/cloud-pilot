@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import os
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -37,5 +35,4 @@ app.include_router(runs_router, tags=["runs"])
 def on_startup() -> None:
     ensure_directories()
     init_db()
-    if os.getenv("SKIP_RAG_INGEST", "0") != "1":
-        ingest_infra_templates()
+    ingest_infra_templates()
